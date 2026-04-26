@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>时光信封 · 小北的祝福</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- 祝福数据（JSON 格式，由 detail.js 读取） -->
+  <script type="application/json" id="blessing-data">
+  {
+    "name": "小北",
+    "blessings": [
+      {
+        "from": "吕艾薇",
+        "text": "老同桌~没想到咱们也是从小玩到大的玩伴了，看着你从青涩走向还带有些青涩😆，不知道以后的你会是什么样的，毕业快乐！"
+      },
+      {
+        "from": "林佳",
+        "text": "请迎接属于你的精彩未完的未来"
+      },
+      {
+        "from": "林俊宏",
+        "text": "毕业快乐！愿未来皆坦荡！"
+      },
+      {
+        "from": "杨梓萱",
+        "text": "思星河览梦，锐意奋发，不坠青云之志！愿此去鹏程万里，扶摇而上！"
+      },
+      {
+        "from": "林润豪",
+        "text": "祝小北毕业快乐，前途似锦！从此奔赴新天地，一路开挂不费力；上岸成功笑嘻嘻，赚大钱也不客气；身体健康有福气，理想生活属于你！"
+      },
+      {
+        "from": "鳖",
+        "text": "祝前路顺遂，一切顺利！"
+      },
+      {
+        "from": "张佳仪",
+        "text": "愿君如山水，滔滔岌岌风云起。如果认定方向，那就一直向那奔去吧，相信你会得到你想要的结果。"
+      },
+      {
+        "from": "许润钿",
+        "text": "从此少年远方，各自前路宽广。愿你永远张扬，永远满怀希望。"
+      }
+    ]
+  }
+  </script>
+
+  <!-- 拆信动画场景 -->
+  <div class="letter-scene">
+
+    <!-- 信封 -->
+    <div class="detail-envelope">
+      <div class="detail-envelope-body">
+        <div class="detail-envelope-flap"></div>
+        <span class="detail-envelope-name">小北</span>
+        <div class="detail-envelope-wax"></div>
+      </div>
+    </div>
+
+    <!-- 信纸 -->
+    <div class="letter-paper">
+      <div id="blessing-list"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <a href="./index.html" class="back-btn">
+      <span class="arrow">←</span> 返回信封架
+    </a>
+
+  </div>
+
+  <div class="page-footer"></div>
+
+  <!-- 详情页脚本 -->
+  <script src="./js/detail.js"></script>
+</body>
+</html>

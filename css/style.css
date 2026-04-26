@@ -1,0 +1,745 @@
+/* ============================================
+   毕业祝福网站 - 全局样式
+   主题：时光信封 / 毕业季
+   ============================================ */
+
+/* ---------- 引入 Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+/* ---------- CSS 变量定义 ---------- */
+:root {
+  /* 主色调：复古信纸米黄/淡粉 */
+  --bg-primary: #fdf6e3;
+  --bg-secondary: #fef9ef;
+  --bg-warm-pink: #fff0f0;
+  /* 信封颜色 */
+  --envelope-body: #f5e6c8;
+  --envelope-flap: #e8d5a8;
+  --envelope-shadow: #d4c4a0;
+  /* 信纸颜色 */
+  --letter-bg: #fffef8;
+  --letter-line: #e8d8c0;
+  /* 文字颜色 */
+  --text-primary: #5a4a3a;
+  --text-secondary: #8a7a6a;
+  --text-accent: #c0785a;
+  /* 装饰色 */
+  --stamp-red: #c0392b;
+  --stamp-border: #e74c3c;
+  --wax-red: #a93226;
+  /* 其他 */
+  --border-soft: #e0d0b8;
+  --shadow-soft: rgba(90, 74, 58, 0.15);
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- 全局重置 ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Serif SC', 'Georgia', serif;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* ---------- 复古信纸背景纹理 ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 多层渐变模拟旧纸张质感 */
+  background:
+    /* 细微噪点纹理 */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 90, 0.02) 2px,
+      rgba(139, 119, 90, 0.02) 4px
+    ),
+    /* 淡粉色光晕 */
+    radial-gradient(ellipse at 20% 50%, rgba(255, 200, 180, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 220, 180, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 180, 180, 0.1) 0%, transparent 60%),
+    /* 基底色 */
+    var(--bg-primary);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- 通用容器 ---------- */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ---------- 页面标题 ---------- */
+.page-title {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.page-title h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+  /* 标题淡入动画 */
+  animation: titleFadeIn 1.2s ease-out;
+}
+
+.page-title .subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  animation: titleFadeIn 1.2s ease-out 0.3s both;
+}
+
+/* 标题装饰线 */
+.page-title::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--text-accent), transparent);
+  margin: 1rem auto 0;
+  animation: titleFadeIn 1.2s ease-out 0.5s both;
+}
+
+/* ============================================
+   首页 - 信封卡片网格
+   ============================================ */
+
+.envelope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  padding: 2rem 0;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ---------- 信封卡片 ---------- */
+.envelope-card {
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  /* 入场动画延迟由 JS 控制 */
+  opacity: 0;
+  animation: cardSlideUp 0.6s ease-out forwards;
+}
+
+/* 信封主体 */
+.envelope-body {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 3.5;
+  background: linear-gradient(145deg, var(--envelope-body), var(--envelope-flap));
+  border-radius: 6px;
+  box-shadow:
+    0 4px 12px var(--shadow-soft),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+/* 信封内部深色三角（模拟信封内侧） */
+.envelope-body::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(to top, rgba(180, 160, 130, 0.2), transparent);
+  clip-path: polygon(0% 100%, 50% 30%, 100% 100%);
+  z-index: 1;
+}
+
+/* 信封盖（三角形翻盖） */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background: linear-gradient(180deg, var(--envelope-flap), var(--envelope-shadow));
+  clip-path: polygon(0% 0%, 50% 85%, 100% 0%);
+  z-index: 2;
+  transform-origin: top center;
+  transition: transform 0.4s ease;
+}
+
+/* 信封上的名字标签 */
+.envelope-name {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* 邮票装饰 */
+.envelope-stamp {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  z-index: 3;
+  width: 40px;
+  height: 48px;
+  background: var(--stamp-red);
+  border: 2px dashed var(--stamp-border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transform: rotate(5deg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* 封蜡印章装饰 */
+.envelope-wax {
+  position: absolute;
+  bottom: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, #d44, var(--wax-red));
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 封蜡十字纹 */
+.envelope-wax::before,
+.envelope-wax::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+}
+.envelope-wax::before {
+  width: 60%;
+  height: 2px;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+}
+.envelope-wax::after {
+  width: 2px;
+  height: 60%;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+}
+
+/* ---------- 信封 Hover 效果 ---------- */
+.envelope-card:hover .envelope-body {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    0 12px 28px var(--shadow-soft),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover 时信封盖轻微打开 */
+.envelope-card:hover .envelope-flap {
+  transform: rotateX(-15deg);
+}
+
+/* Hover 晃动动画 */
+.envelope-card:hover .envelope-body {
+  animation: envelopeShake 0.5s ease-in-out;
+}
+
+/* Hover 光影浮动 */
+.envelope-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  z-index: 5;
+  pointer-events: none;
+  transition: none;
+}
+
+.envelope-card:hover::after {
+  animation: lightSweep 0.8s ease-in-out;
+}
+
+/* ============================================
+   详情页 - 拆信动画 & 信纸
+   ============================================ */
+
+/* ---------- 拆信动画容器 ---------- */
+.letter-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* 详情页信封（较大尺寸） */
+.detail-envelope {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  perspective: 800px;
+  margin-bottom: 2rem;
+}
+
+/* 详情页信封主体 */
+.detail-envelope-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, var(--envelope-body), var(--envelope-flap));
+  border-radius: 6px;
+  box-shadow: 0 6px 20px var(--shadow-soft);
+  overflow: visible;
+}
+
+/* 详情页信封盖 */
+.detail-envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(180deg, var(--envelope-flap), var(--envelope-shadow));
+  clip-path: polygon(0% 0%, 50% 85%, 100% 0%);
+  transform-origin: top center;
+  z-index: 3;
+  /* 初始关闭状态 */
+  transform: rotateX(0deg);
+  transition: transform 1s ease-in-out;
+}
+
+/* 拆信动画：信封盖打开 */
+.detail-envelope.open .detail-envelope-flap {
+  transform: rotateX(-180deg);
+}
+
+/* 详情页信封内侧 */
+.detail-envelope-body::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(to top, rgba(180, 160, 130, 0.25), transparent);
+  clip-path: polygon(0% 100%, 50% 30%, 100% 100%);
+  z-index: 1;
+}
+
+/* 详情页封蜡 */
+.detail-envelope-wax {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  width: 36px;
+  height: 36px;
+  background: radial-gradient(circle, #d44, var(--wax-red));
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.5s ease;
+}
+
+.detail-envelope-wax::before,
+.detail-envelope-wax::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+}
+.detail-envelope-wax::before {
+  width: 60%;
+  height: 2px;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+}
+.detail-envelope-wax::after {
+  width: 2px;
+  height: 60%;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+}
+
+/* 拆信时封蜡消失 */
+.detail-envelope.open .detail-envelope-wax {
+  opacity: 0;
+}
+
+/* 详情页收信人名字 */
+.detail-envelope-name {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.12em;
+}
+
+/* ---------- 信纸 ---------- */
+.letter-paper {
+  position: relative;
+  width: 90%;
+  max-width: 680px;
+  background: var(--letter-bg);
+  border-radius: 4px;
+  padding: 2.5rem 2rem;
+  /* 信纸横线效果 */
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      var(--letter-line) 31px,
+      var(--letter-line) 32px
+    );
+  background-position: 0 2.5rem;
+  box-shadow:
+    0 4px 16px var(--shadow-soft),
+    inset 0 0 30px rgba(139, 119, 90, 0.05);
+  /* 初始隐藏，等待拆信动画后出现 */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  margin-top: -1rem;
+}
+
+/* 信纸出现 */
+.letter-paper.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 信纸顶部装饰 */
+.letter-paper::before {
+  content: '✦';
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  color: var(--text-accent);
+  opacity: 0.5;
+}
+
+/* 信纸左上角红色竖线（模拟信纸装订线） */
+.letter-paper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--stamp-red) 0px,
+    var(--stamp-red) 8px,
+    transparent 8px,
+    transparent 14px
+  );
+  border-radius: 3px 0 0 3px;
+}
+
+/* ---------- 祝福内容 ---------- */
+.blessing-item {
+  padding: 0.8rem 0 0.8rem 1.2rem;
+  margin-bottom: 0.5rem;
+  border-left: 2px solid var(--border-soft);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* 祝福条目淡入 */
+.blessing-item.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 祝福者名字 */
+.blessing-from {
+  font-weight: 600;
+  color: var(--text-accent);
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+/* 祝福内容 */
+.blessing-text {
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.9;
+}
+
+/* ---------- 返回按钮 ---------- */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  margin: 2rem auto;
+  background: linear-gradient(135deg, var(--envelope-body), var(--envelope-flap));
+  color: var(--text-primary);
+  border: 1px solid var(--border-soft);
+  border-radius: 30px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-smooth);
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px var(--shadow-soft);
+  background: linear-gradient(135deg, var(--envelope-flap), var(--envelope-shadow));
+}
+
+.back-btn .arrow {
+  font-size: 1.2rem;
+  transition: transform var(--transition-smooth);
+}
+
+.back-btn:hover .arrow {
+  transform: translateX(-3px);
+}
+
+/* ---------- 花瓣画布（首页背景） ---------- */
+#petal-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   关键帧动画
+   ============================================ */
+
+/* 标题淡入 */
+@keyframes titleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 卡片上滑入场 */
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 信封晃动 */
+@keyframes envelopeShake {
+  0%   { transform: translateY(-6px) scale(1.03) rotate(0deg); }
+  25%  { transform: translateY(-6px) scale(1.03) rotate(-2deg); }
+  50%  { transform: translateY(-6px) scale(1.03) rotate(2deg); }
+  75%  { transform: translateY(-6px) scale(1.03) rotate(-1deg); }
+  100% { transform: translateY(-6px) scale(1.03) rotate(0deg); }
+}
+
+/* 光影扫过 */
+@keyframes lightSweep {
+  from { left: -100%; }
+  to   { left: 150%; }
+}
+
+/* 信纸从信封抽出 */
+@keyframes letterSlideOut {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 花瓣飘落（CSS 备用，主要用 Canvas） */
+@keyframes petalFall {
+  0% {
+    opacity: 1;
+    transform: translateY(-10vh) rotate(0deg) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) rotate(720deg) translateX(80px);
+  }
+}
+
+/* 呼吸式微动（信封待机） */
+@keyframes breathe {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+
+/* 平板 */
+@media (max-width: 900px) {
+  .envelope-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .page-title h1 {
+    font-size: 2rem;
+  }
+
+  .detail-envelope {
+    width: 260px;
+    height: 180px;
+  }
+
+  .letter-paper {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* 手机 */
+@media (max-width: 600px) {
+  .envelope-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 320px;
+  }
+
+  .page-title h1 {
+    font-size: 1.6rem;
+  }
+
+  .page-title .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .container {
+    padding: 1rem 0.8rem;
+  }
+
+  .envelope-name {
+    font-size: 1.1rem;
+  }
+
+  .envelope-stamp {
+    width: 32px;
+    height: 38px;
+    font-size: 0.6rem;
+  }
+
+  .detail-envelope {
+    width: 220px;
+    height: 155px;
+  }
+
+  .detail-envelope-name {
+    font-size: 1.2rem;
+  }
+
+  .letter-paper {
+    padding: 1.5rem 1.2rem;
+    width: 95%;
+  }
+
+  .blessing-text {
+    font-size: 0.9rem;
+  }
+
+  .back-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.3rem;
+  }
+}
+
+/* ============================================
+   辅助工具类
+   ============================================ */
+
+/* 隐藏 JSON 数据标签 */
+.hidden-data {
+  display: none !important;
+}
+
+/* 文字居中 */
+.text-center {
+  text-align: center;
+}
+
+/* 底部留白 */
+.page-footer {
+  height: 3rem;
+}
